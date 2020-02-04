@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Counter } from './Counter';
 import { CounterDisplay } from './CounterDisplay';
+import { CountPage } from './count/page';
 
 const App = () => {
   const [count, setCount] = useState(0)
@@ -16,6 +17,7 @@ const App = () => {
         </p>
         <CounterDisplay count={ count } />
         <Counter count={ count } increment={ setCount } />
+        <CountPage />
       </header>
     </div>
   );
