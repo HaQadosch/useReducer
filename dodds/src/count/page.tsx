@@ -2,14 +2,13 @@ import React from 'react'
 import { useCount, CountProvider } from './context'
 
 const Counter: React.FC = () => {
-  const [count, setCount] = useCount()
-  const increment = () => setCount(c => c + 1)
+  const { state, increment } = useCount()
 
-  return <button onClick={ increment }>{ count }</button>
+  return <button onClick={ increment }>{ state.count }</button>
 }
 
 const CountDisplay: React.FC = () => {
-  const [count] = useCount()
+  const { state: { count } } = useCount()
 
   return <p>The current value of the counter is: { count }</p>
 }

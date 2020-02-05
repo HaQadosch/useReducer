@@ -1,21 +1,39 @@
-import React, { createContext, useContext, useState, useMemo, Dispatch, SetStateAction } from "react"
+import React, { createContext, useContext, useMemo } from "react"
 
-const CountContext = createContext([0, () => { }] as [number, Dispatch<SetStateAction<number>>])
+const CountContext = createContext([{ count: 0 }, () => { }] as [{ count: number }, (action: any) => void])
+
+function countReducer (state: { count: number }, action: { type: string }) {
+  switch (action.type) {
+    case 'INCREMENT': {
+      return { count: state.count + 1 }
+    }
+    default: {
+      throw new Error('Unsupported action type' + action.type)
+    }
+  }
+}
 
 function useCount () {
   const context = useContext(CountContext)
 
   if (!context) {
-    throw new Error('useCount must be used within a Count Provider')
+    throw new Error(`useCount must be used within a CountProvider`)
   }
 
-  return context
+  const [state, dispatch] = context
+  const increment = () => dispatch({ type: 'INCREMENT' })
+
+  return {
+    state,
+    dispatch,
+    increment,
+  }
 }
 
 function CountProvider (props: any) {
-  const [count, setCount] = useState(0)
+  const [state, dispatch] = React.useReducer(countReducer, { count: 0 })
 
-  const value = useMemo<[number, Dispatch<SetStateAction<number>>]>(() => [count, setCount], [count])
+  const value = useMemo(() => [state, dispatch], [state])
   return <CountContext.Provider value={ value } { ...props } />
 }
 
