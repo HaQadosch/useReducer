@@ -2,9 +2,9 @@ import React from 'react'
 import { useCount, CountProvider } from './context'
 
 const Counter: React.FC = () => {
-  const { state, increment } = useCount()
+  const { state: { count }, increment } = useCount()
 
-  return <button onClick={ increment }>{ state.count }</button>
+  return <button onClick={ increment }>{ count }</button>
 }
 
 const CountDisplay: React.FC = () => {

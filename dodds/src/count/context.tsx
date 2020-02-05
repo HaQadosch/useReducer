@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useMemo } from "react"
 
-const CountContext = createContext([{ count: 0 }, () => { }] as [{ count: number }, (action: any) => void])
+const initState = { count: 0 }
+const CountContext = createContext([initState, () => { }] as [{ count: number }, (action: any) => void])
 
 function countReducer (state: { count: number }, action: { type: string }) {
   switch (action.type) {
@@ -31,7 +32,7 @@ function useCount () {
 }
 
 function CountProvider (props: any) {
-  const [state, dispatch] = React.useReducer(countReducer, { count: 0 })
+  const [state, dispatch] = React.useReducer(countReducer, initState)
 
   const value = useMemo(() => [state, dispatch], [state])
   return <CountContext.Provider value={ value } { ...props } />
